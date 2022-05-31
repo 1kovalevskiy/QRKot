@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import List
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -23,7 +24,7 @@ async def check_obj_is_fully(
 
 async def get_unfinished_charity_project(
         session: AsyncSession,
-) -> list[CharityProjectDB]:
+) -> List[CharityProjectDB]:
     charity_project = await session.execute(
         select(
             CharityProject
@@ -38,7 +39,7 @@ async def get_unfinished_charity_project(
 
 async def get_unfinished_donation(
         session: AsyncSession,
-) -> list[DonationDB]:
+) -> List[DonationDB]:
     donation = await session.execute(
         select(
             Donation
