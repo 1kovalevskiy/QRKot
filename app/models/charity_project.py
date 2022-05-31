@@ -13,3 +13,9 @@ class CharityProject(Base):
     fully_invested = Column(Boolean, default=False)
     create_date = Column(DateTime, default=datetime.now())
     close_date = Column(DateTime)
+
+    def __repr__(self):
+        return (
+            f'Создано {self.create_date.isoformat(timespec="minutes")}'
+            f'Нехватает {self.full_amount - self.invested_amount}'
+        )

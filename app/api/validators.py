@@ -86,11 +86,11 @@ async def check_charity_project_could_update(
         )
 
 
-async def check_object_dont_close(
+def check_object_dont_close(
         obj,
 ):
     if obj.fully_invested:
         raise HTTPException(
             status_code=400,
-            detail="Проект уже проинвестирован",
+            detail="Закрытый проект нельзя редактировать!",
         )

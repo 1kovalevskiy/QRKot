@@ -1,15 +1,18 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.validators import check_charity_project_name_is_available, \
-    check_charity_project_before_delete, check_new_full_amount_more_than_older, \
-    check_object_exist, check_charity_project_could_update, \
-    check_object_dont_close
+from app.api.validators import (
+    check_charity_project_name_is_available,
+    check_charity_project_before_delete,
+    check_object_exist, check_charity_project_could_update,
+    check_object_dont_close)
 from app.core.db import get_async_session
 from app.core.user import current_superuser
 from app.crud.charity_project import charity_project_crud
 from app.schemas.charity_project import CharityProjectDB, CharityProjectCreate, \
     CharityProjectUpdate
+from app.service.invest import (check_obj_is_fully,
+                                invest_when_new_charity_project)
 
 router = APIRouter()
 
@@ -41,6 +44,7 @@ async def create_new_charity_project(
     charity_project = await charity_project_crud.create(
         charity_project, session
     )
+    await invest_when_new_charity_project(charity_project, session)
     return charity_project
 
 
@@ -74,7 +78,6 @@ async def partially_update_meeting_room(
         session: AsyncSession = Depends(get_async_session),
 ):
     """Только для суперюзеров."""
-
     charity_project = await charity_project_crud.get(
         obj_id=charity_project_id, session=session
     )
@@ -89,5 +92,8 @@ async def partially_update_meeting_room(
         db_obj=charity_project,
         obj_in=update_charity_project,
         session=session,
+    )
+    charity_project = await check_obj_is_fully(
+        session=session, obj=charity_project
     )
     return charity_project
