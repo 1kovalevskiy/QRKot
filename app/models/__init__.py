@@ -1,1 +1,3 @@
-from .user import UserTable
+from .user import UserTable  # noqa
+from .charity_project import CharityProject  # noqa
+from .donation import Donation  # noqa
