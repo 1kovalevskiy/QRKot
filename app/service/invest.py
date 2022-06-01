@@ -29,6 +29,7 @@ async def get_unfinished_charity_project(
         select(
             CharityProject
         ).where(
+            # получается отфильтровать если только указать, что == False
             CharityProject.fully_invested == False  # noqa
         ).order_by(
             CharityProject.create_date

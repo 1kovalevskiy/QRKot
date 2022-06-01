@@ -12,12 +12,11 @@ from app.core.db import get_async_session
 from app.core.user import current_superuser
 from app.crud.charity_project import charity_project_crud
 from app.schemas.charity_project import (
-    CharityProjectDB,
-    CharityProjectCreate,
-    CharityProjectUpdate
+    CharityProjectDB, CharityProjectCreate, CharityProjectUpdate
 )
-from app.service.invest import (check_obj_is_fully,
-                                invest_when_new_charity_project)
+from app.service.invest import (
+    check_obj_is_fully, invest_when_new_charity_project
+)
 
 router = APIRouter()
 

@@ -1,8 +1,9 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, Field, NonNegativeInt, PositiveInt, \
-    root_validator
+from pydantic import (
+    BaseModel, Field, NonNegativeInt, PositiveInt, root_validator, Extra
+)
 
 
 class CharityProjectBase(BaseModel):
@@ -10,8 +11,15 @@ class CharityProjectBase(BaseModel):
     description: Optional[str]
     full_amount: Optional[PositiveInt]
 
+    class Config:
+        extra = Extra.forbid
 
-class CharityProjectCreate(BaseModel):
+
+class CharityProjectCreate(CharityProjectBase):
+    """
+    В CharityProjectBase поля необязательные
+    А в CharityProjectCreate - обязательные
+    """
     name: str = Field(None, min_length=1, max_length=100)
     description: str
     full_amount: PositiveInt

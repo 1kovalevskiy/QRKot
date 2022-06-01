@@ -5,18 +5,16 @@ from pydantic import BaseModel, PositiveInt, UUID4, NonNegativeInt
 
 
 class DonationBase(BaseModel):
-    pass
-
-
-class DonationCreate(BaseModel):
     full_amount: PositiveInt
     comment: Optional[str]
+
+
+class DonationCreate(DonationBase):
+    pass
 
 
 class DonationPartDB(DonationBase):
     id: int
-    comment: Optional[str]
-    full_amount: PositiveInt
     create_date: datetime
 
     class Config:

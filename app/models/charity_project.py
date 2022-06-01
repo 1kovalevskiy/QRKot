@@ -1,21 +1,15 @@
-from datetime import datetime
-
-from sqlalchemy import Column, String, Text, Integer, Boolean, DateTime
+from sqlalchemy import Column, String, Text
 
 from app.core.db import Base
+from app.models.base import PostBase
 
 
-class CharityProject(Base):
+class CharityProject(Base, PostBase):
     name = Column(String(100), unique=True)
     description = Column(Text)
-    full_amount = Column(Integer)
-    invested_amount = Column(Integer, default=0)
-    fully_invested = Column(Boolean, default=False)
-    create_date = Column(DateTime, default=datetime.now())
-    close_date = Column(DateTime)
 
     def __repr__(self):
         return (
-            f'Создано {self.create_date.isoformat(timespec="minutes")}'
+            f'Создано {self.create_date.isoformat(timespec="minutes")} '
             f'Нехватает {self.full_amount - self.invested_amount}'
         )
